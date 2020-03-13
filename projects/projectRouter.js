@@ -8,6 +8,7 @@ const router = express.Router();
     //id(#),name(''),description(''),completed(boolean)
 //}
 
+//get all projects
 router.get("/", (req, res) => {
     project.get(req.query)
     .then(projects =>{
@@ -21,7 +22,8 @@ router.get("/", (req, res) => {
     })
 });
 
-router.get("/:id", (req, res) => {
+//get project by id
+router.get("/:id", validateProjectId, (req, res) => {
     project.get(req.params.id)
       .then(project => {
         if (project) {
@@ -36,23 +38,54 @@ router.get("/:id", (req, res) => {
         // log error to database
         console.log(error);
         res.status(500).json({
-          error: "The post information could not be retrieved."
+          error: "That project could not be retrieved."
         });
-      });
-  });
+    });
+});
 
+//add new project
 router.post("/", (req, res) => {
-    project.insert()
+    project.insert(req.body)
 });
 
-router.put("/", (req, res) => {
-    project.update()
+//need id and changes to change project,; return null if not found
+router.put("/:id", validateProjectId, (req, res) => {
+    project.update(req.params.id)
 });
 
-router.delete("/", (req, res) => {
-    project.remove()
+//remove project by id
+router.delete("/:id", validateProjectId, (req, res) => {
+    project.remove(req.params.id)
 });
 
-router.get("/", (req, res) => {
-    project.getProjectActions()
+//get actions by project id
+router.get("/:id/actions", validateProjectId, (req, res) => {
+    project.getProjectActions(req.body.id)
 });
+
+
+function validateProjectId(req, res, next){
+    project.get(req.body.id)
+    .then(
+      project => {
+        if(project){
+          req.project = project;
+          req.id = req.body.id
+          next();
+        } else {
+            res.status(404).json({
+                message: "Invalid project id"
+            })
+        }
+      }
+    )
+    .catch(error=> {
+      res.status(500).json({error})
+    })
+    req.id
+  
+    next();
+  };
+
+
+module.exports = router;

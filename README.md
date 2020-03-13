@@ -17,7 +17,7 @@ The Minimum Viable Product must be completed in three hours.
 Follow these steps to set up and work on your project:
 
 - [X] Create a forked copy of this project.
-- [ ] Add your _Team Lead_ as collaborator on Github.
+- [X] Add your _Team Lead_ as collaborator on Github.
 - [X] Clone your forked version of the Repository.
 - [X] Create a new Branch on the clone: git checkout -b `firstName-lastName`.
 - [X] Implement the project on this Branch, committing changes regularly.
@@ -28,7 +28,7 @@ Follow these steps for completing your project.
 - [ ] Submit a Pull-Request to merge `firstName-lastName` Branch into master on **your fork, don't make Pull Requests against Lambda's repository**.
 - [X] Please don't merge your own pull request.
 - [ ] Add your _Team Lead_ as a Reviewer on the Pull-request
-- [ ] Your _Team Lead_ will count the challenge as done by merging the branch into _master_.
+- [X] Your _Team Lead_ will count the challenge as done by merging the branch into _master_.
 
 ## Commits
 
@@ -66,6 +66,8 @@ Use routers/models
 Design and build the necessary endpoints to:
 
 - [ ] Perform CRUD operations on _projects_ and _actions_. When adding an action, make sure the `project_id` provided belongs to an existing `project`. If you try to add an action with an `id` of 3 and there is no project with that `id` the database will return an error.
+Project: []C []R []U []D
+Actions: []C []R []U []D
 - [ ] Retrieve the list of actions for a project.
 
 Please read the following sections before implementing the Minimum Viable Product, they describe how the database is structured and the files and methods available for interacting with the data.
