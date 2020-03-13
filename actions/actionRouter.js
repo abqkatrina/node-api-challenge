@@ -8,7 +8,7 @@ const router = express.Router();
 //}
 
 //get actions by project id
-router.get("/:project_id", (req, res) => {
+router.get("/:project_id/actions", (req, res) => {
     action.get(req.params.project_id)
     .then(actions =>{
         if (actions) {
@@ -18,14 +18,14 @@ router.get("/:project_id", (req, res) => {
                  message: "The actions with the specified project ID do not exist." 
               });
             }
-        }) 
-    })
+        })
     .catch(error => {
         console.log(error);
         res.status(500).json({
             error: "The actions could not be retrieved."
-        })
-    });
+    })})
+});
+
 
 router.get("/posts/:project_id/:id", validateActionId, (req, res) => {
     action.get(req.params.id)

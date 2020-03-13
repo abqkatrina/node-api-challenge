@@ -23,7 +23,7 @@ router.get("/", (req, res) => {
 });
 
 //get project by id
-router.get("/:id", validateProjectId, (req, res) => {
+router.get("/:id", (req, res) => {
     project.get(req.params.id)
       .then(project => {
         if (project) {
@@ -36,7 +36,7 @@ router.get("/:id", validateProjectId, (req, res) => {
       })
       .catch(error => {
         // log error to database
-        console.log(error);
+        console.log("failure poject.get", error);
         res.status(500).json({
           error: "That project could not be retrieved."
         });
@@ -44,8 +44,17 @@ router.get("/:id", validateProjectId, (req, res) => {
 });
 
 //add new project
-router.post("/", (req, res) => {
+router.post("/", validateProject, (req, res) => {
     project.insert(req.body)
+    .then(project => {
+        res.status(201).json({project})
+    })
+    .catch(error => {
+        console.log(error);
+        res.status(500).json({
+            error: "could not save new project"
+        })
+    })
 });
 
 //need id and changes to change project,; return null if not found
@@ -65,12 +74,12 @@ router.get("/:id/actions", validateProjectId, (req, res) => {
 
 
 function validateProjectId(req, res, next){
-    project.get(req.body.id)
+    project.get(req.params.id)
     .then(
       project => {
         if(project){
           req.project = project;
-          req.id = req.body.id
+          req.id = req.params.id
           next();
         } else {
             res.status(404).json({
@@ -80,12 +89,30 @@ function validateProjectId(req, res, next){
       }
     )
     .catch(error=> {
-      res.status(500).json({error})
+      res.status(500).json({
+          message: "could not fetch through validation"
+      })
     })
-    req.id
   
     next();
   };
 
-
+function validateProject(req, res, next){
+    project.get(req.body)
+    .then(
+        project => {if(!req.body.name || !req.body.description){
+            res.status(400).json({
+                errorMessage: "Project must include name and description"
+            })
+        } else {
+            res.status(201).json(project)
+        }
+        })
+    .catch(error => {
+        console.log(error);
+        res.status(500).json({
+            message: "could not post new project"
+        })
+    })
+}
 module.exports = router;
