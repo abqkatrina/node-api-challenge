@@ -78,11 +78,11 @@ router.put("/:id", (req, res) => {
 
 
 
-//get actions by project id
+//get actions by project id WORKS
 router.get("/:id/actions", (req, res) => {
     project.getProjectActions(req.params.id)
-    .then(project => {
-            res.status(200).json(project.actions)
+    .then(actions => {
+            res.status(200).json(actions)
         })
     .catch(error =>{
         res.status(500).json({ error: "could not load actions"})
