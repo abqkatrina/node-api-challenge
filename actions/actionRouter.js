@@ -7,9 +7,9 @@ const router = express.Router();
     //id(#), project_id(#),desciption(''),notes(''), completed(boolean)
 //}
 
-//get actions by project id
+//get actions by project id WORKS
 router.get("/:project_id/actions", (req, res) => {
-    action.get(req.params.project_id)
+    action.get(req.body.project_id)
     .then(actions =>{
         if (actions) {
             res.status(200).json(actions);
@@ -26,8 +26,8 @@ router.get("/:project_id/actions", (req, res) => {
     })})
 });
 
-
-router.get("/posts/:project_id/:id", validateActionId, (req, res) => {
+//get a single action by id and project id WORKS
+router.get("/:project_id/:id", (req, res) => {
     action.get(req.params.id)
       .then(action => {
         if (action) {
@@ -47,36 +47,63 @@ router.get("/posts/:project_id/:id", validateActionId, (req, res) => {
     });
 });
 
-router.post("/",(req, res) => {
-    action.insert(req.query)
+//add action to project by project id WORKS
+router.post("/:project_id",(req, res) => {
+    action.insert(req.body, req.params.id)
     /* make sure the `project_id` provided belongs to an existing `project`.*/
+    .then(project => {
+    if(req.body.project_id){
+      res.status(200).json({ message: "added action"})
+    } else { 
+      res.status(400).json({ errorMessage: "could not add action"})
+    }})
+   .catch(error => { res.status(500).json({ error: "could not fetch project"})
+   })
 })
 
-router.put("/", validateActionId, (req, res) => {
-    action.update()
-})
-
-router.delete("/", validateActionId, (req, res) => {
-    action.remove()
-})
-
-function validateActionId(req, res, next){
-    action.get(req.params.action_id)
-    .then(
-      user => {
-        if(user){
-          req.user = user;
-          req.id = req.params.user_id
-          next();
-        }
+//change action WORKS
+router.put("/:project_id/:id", (req, res) => {
+    action.update(req.params.id, req.body)
+    .then(action => {
+      if(action){
+        res.status(200).json({ message: "action changed successfully"})
+      } else {
+        res.status(404).json({ error: "action not found"})
       }
-    )
-    .catch(error=> {
-      res.status(500).json({})
     })
-    req.user_id
+    .catch(error=>{
+      res.status(500).json({ error: "could not load action"})
+    })
+})
+
+//delete action WORKS
+router.delete("/:project_id/:id", (req, res) => {
+    action.remove(req.params.id)
+    .then(project => {
+      res.status(201).json({ project, message: "action deleted"})
+    })
+    .catch(error => {
+      res.status(500).json({ error: "could not load project actions"})
+    })
+})
+
+// function validateActionId(req, res, next){
+//     action.get(req.params.action_id)
+//     .then(
+//       user => {
+//         if(user){
+//           req.user = user;
+//           req.id = req.params.user_id
+//           next();
+//         }
+//       }
+//     )
+//     .catch(error=> {
+//       res.status(500).json({})
+//     })
+//     req.user_id
   
-    next();
-  };
+//     next();
+//   };
 
 module.exports = router;

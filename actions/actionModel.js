@@ -8,6 +8,7 @@ module.exports = {
   remove,
 };
 
+
 function get(id) {
   let query = db("actions");
 

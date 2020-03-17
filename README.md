@@ -65,10 +65,10 @@ Use routers/models
 
 Design and build the necessary endpoints to:
 
-- [ ] Perform CRUD operations on _projects_ and _actions_. When adding an action, make sure the `project_id` provided belongs to an existing `project`. If you try to add an action with an `id` of 3 and there is no project with that `id` the database will return an error.
-Project: []C []R []U []D
-Actions: []C []R []U []D
-- [ ] Retrieve the list of actions for a project.
+- [X] Perform CRUD operations on _projects_ and _actions_. When adding an action, make sure the `project_id` provided belongs to an existing `project`. If you try to add an action with an `id` of 3 and there is no project with that `id` the database will return an error.
+Project: [X]C [X]R [X]U [X]D
+Actions: [X]C [X]R [X]U [X]D
+- [X] Retrieve the list of actions for a project.
 
 Please read the following sections before implementing the Minimum Viable Product, they describe how the database is structured and the files and methods available for interacting with the data.
 
