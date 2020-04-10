@@ -1,5 +1,5 @@
-const db = require("../dbConfig.js");
-const mappers = require("./mappers");
+const db = require("../data/dbConfig.js");
+const mappers = require("../data/helpers/mappers");
 
 module.exports = {
   get,
@@ -7,6 +7,7 @@ module.exports = {
   update,
   remove,
 };
+
 
 function get(id) {
   let query = db("actions");
