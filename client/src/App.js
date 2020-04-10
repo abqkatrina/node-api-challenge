@@ -7,6 +7,8 @@ import './App.css';
 const App = () => {
 
 const [ data, setData ] = useState([]);
+const [open, setOpen] = useState(false);
+
 
 
 useEffect(() => {
@@ -18,8 +20,8 @@ useEffect(() => {
       .catch(error => console.log('crap!', error))
   }, []);
 
-function clickHandler(item){
-  (`${item.description}`);
+function clickHandler(){
+  setOpen(true);
 };
   return (
     <div className="App">
@@ -30,10 +32,10 @@ function clickHandler(item){
        <ul>
            {data.map((item) => {
             return(
-            <li onClick={clickHandler(item)}>"{item.name}"</li>
-            )
-           })}
-       </ul>
+            <li onClick={clickHandler()}>"{item.name}"{ open && (<p>: {item.description}</p>)}</li>
+            )})}
+      </ul>
+ 
      </div>
     </div>
   )
