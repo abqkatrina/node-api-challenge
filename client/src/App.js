@@ -7,7 +7,9 @@ import './App.css';
 const App = () => {
 
 const [ data, setData ] = useState([]);
+const [ actions, setActions ] = useState([]);
 const [open, setOpen] = useState(false);
+
 
 
 
@@ -20,8 +22,15 @@ useEffect(() => {
       .catch(error => console.log('crap!', error))
   }, []);
 
-function clickHandler(){
-  setOpen(true);
+
+function clickHandler(e){
+  axios.get('http://localhost:5000/api/actions/{e.target.value}/actions')
+  .then(response => {
+    console.log(response.data);
+    setActions(response.data);
+    setOpen(true);
+  })
+  .catch(error => console.log('crap!', error))
 };
   return (
     <div className="App">
@@ -32,8 +41,11 @@ function clickHandler(){
        <ul>
            {data.map((item) => {
             return(
-            <li onClick={clickHandler()}>"{item.name}"{ open && (<p>: {item.description}</p>)}</li>
+            <li
+             value={item.id} onClick={clickHandler}
+            >"{item.name}":{item.description}</li>
             )})}
+            { open && (<ul>{actions.map(action  => <li>{action.description}</li>)}</ul>)}
       </ul>
  
      </div>
