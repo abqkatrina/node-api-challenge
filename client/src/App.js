@@ -1,36 +1,42 @@
-import React, { useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './App.css';
 
+
+
 const App = () => {
 
-  const [data, setData] = useState({});
+const [ data, setData ] = useState([]);
 
-  useEffect(() => {
-    axios.get('localhost:5000/projects')
-    .then(res => {
-      console.log(res)
-      setData(res.data)})
-      .catch(err => console.log(err))
+
+useEffect(() => {
+    axios.get('http://localhost:5000/api/projects')
+      .then(response => {
+        console.log(response.data);
+          setData(response.data)
+        })
+      .catch(error => console.log('crap!', error))
   }, []);
 
-
+function clickHandler(item){
+  (`${item.description}`);
+};
   return (
     <div className="App">
-      <header className="App-header">
-        <p>API Sprint - express, api, react-app</p>
-      </header> 
-      <div className="container">
-        <ul>
-          <li>List of things</li>
-          <li>
-          {data.map( (item) => {
-              <li>{item.title}</li>
-          })}</li>
-        </ul>
-      </div>
+      <header>
+        List of Projects
+      </header>
+     <div className="table">
+       <ul>
+           {data.map((item) => {
+            return(
+            <li onClick={clickHandler(item)}>"{item.name}"</li>
+            )
+           })}
+       </ul>
+     </div>
     </div>
-  );
+  )
 }
 
 export default App;
