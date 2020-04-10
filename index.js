@@ -1,5 +1,4 @@
-const server = require('./server.js');
-
+const server = require('./data/server.js');
 const port = 5000;
 server.listen(port, () => {
   console.log(`\n*** Server Running on http://localhost:${port} ***\n`);
@@ -34,9 +33,3 @@ I need this code, but don't know where, perhaps should make some middleware, don
 
 Go code!
 */
-
-const server = require('./server.js');
-
-server.listen(5000, () => {
-  console.log('\n* Running on http://localhost:5000 *\n');
-});

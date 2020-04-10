@@ -2,7 +2,7 @@ import React, { useEffect, useState} from 'react';
 import axios from 'axios';
 import './App.css';
 
-function App() {
+const App = () => {
 
   const [data, setData] = useState({});
 
@@ -23,9 +23,10 @@ function App() {
       <div className="container">
         <ul>
           <li>List of things</li>
-          {/* (data.map( (item) => {
+          <li>
+          {data.map( (item) => {
               <li>{item.title}</li>
-          })) */}
+          })}</li>
         </ul>
       </div>
     </div>
